@@ -59,4 +59,5 @@ func Close() {
 func autoMigrate() {
 	db.AutoMigrate(&entity.User{})
 	db.AutoMigrate(&entity.Task{})
+	db.AutoMigrate(&entity.Task{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
 }

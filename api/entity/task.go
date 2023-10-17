@@ -12,7 +12,7 @@ type Task struct {
 	Description string
 	Status      bool
 	Deadline    time.Time
-	TaskId      uint
+	UserID      uint
 	CreatorID   uint
 	AssigneeID  uint
 }

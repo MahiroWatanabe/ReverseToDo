@@ -1,71 +1,10 @@
 import type { NextPage } from 'next'
-import { useState,FormEvent } from 'react';
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { authInstance } from '../src/api/getUser';
+import LoginForm from '../components/LoginForm';
 
 const Home: NextPage = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-
-  const getUserData = async (url:string) => {
-    try{
-      const response = await authInstance.get(url);
-    }catch (error) {
-      console.error(error)
-    }
-  }
-  const postUser = async (url:string) => {
-    try{
-      const response = await authInstance.post(url,{username,email});
-    }catch (error) {
-      console.error(error)
-    }
-  }
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>, url:string) => {
-    e.preventDefault();
-    // ログイン処理をここに書く
-    getUserData(url);
-    console.log(`Username: ${username}, Email: ${email}`);
-  }
-
-  const handleSubmit2 = (e: FormEvent<HTMLFormElement>, url:string) => {
-    e.preventDefault();
-    // ログイン処理をここに書く
-    postUser(url);
-    console.log(`Username: ${username}, Email: ${email}`);
-  }
-
+  // ログイン画面の作成から行う
   return (
-    <div>
-      <h1>Login（GET/users/&{username}）</h1>
-      <form onSubmit={(e) => handleSubmit(e,`/users/${username}`)}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <button type="submit">Login</button>
-      </form>
-
-      <h1>ユーザ作成（POST/）</h1>
-      <form onSubmit={(e) => handleSubmit2(e,"/users")}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <LoginForm />
   )
 }
 

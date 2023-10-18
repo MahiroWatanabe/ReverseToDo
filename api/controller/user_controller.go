@@ -51,6 +51,19 @@ func (pc Controller) Show(c *gin.Context) {
 	}
 }
 
+func (pc Controller) ShowUser(c *gin.Context) {
+	username := c.Param("username")
+	var s user.Service
+	p, err := s.GetLoginUserTask(username)
+
+	if err != nil {
+		c.AbortWithStatus(400)
+		fmt.Println(err)
+	} else {
+		c.JSON(200, p)
+	}
+}
+
 // Update action: PUT /users/:id
 func (pc Controller) Update(c *gin.Context) {
 	id := c.Params.ByName("id")

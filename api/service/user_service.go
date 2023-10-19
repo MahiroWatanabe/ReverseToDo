@@ -48,10 +48,10 @@ func (s Service) GetByID(id string) (User, error) {
 	return u, nil
 }
 
-func (s Service) GetLoginUserTask(username string) ([]User, error) {
+func (s Service) GetLoginUserTask(username string) (User, error) {
 	db := db.GetDB()
-	var u []User
-	err := db.Model(&User{}).Preload("Tasks").Find(&u).Error
+	var u User
+	err := db.Where("name = ?", "test").First(&u).Error
 	return u, err
 }
 

@@ -52,8 +52,9 @@ func (pc Controller) Show(c *gin.Context) {
 }
 
 func (pc Controller) ShowUser(c *gin.Context) {
-	username := c.Param("username")
+	username := c.Query("username")
 	var s user.Service
+	// GetLoginUserTaskから編集
 	p, err := s.GetLoginUserTask(username)
 
 	if err != nil {

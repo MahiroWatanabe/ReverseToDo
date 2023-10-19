@@ -108,6 +108,11 @@
   margin-left: 0.5rem;
 }
 
+.blueText {
+  color: blue;
+  cursor: pointer;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

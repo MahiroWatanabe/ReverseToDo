@@ -2,8 +2,8 @@ import { authInstance } from "../src/api/getUser";
 
 const getUserData = async (url: string) => {
   try {
-    const response = await authInstance.get(url);
-    console.log(response);
+    const res = await authInstance.get(url);
+    return res.data;
   } catch (error) {
     console.error(error);
   }
@@ -11,7 +11,8 @@ const getUserData = async (url: string) => {
 
 const postUser = async (url: string, username: string, email: string) => {
   try {
-    const response = await authInstance.post(url, { username, email });
+    const res = await authInstance.post(url, { username, email });
+    return res.data;
   } catch (error) {
     console.error(error);
   }

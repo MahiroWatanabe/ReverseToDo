@@ -1,16 +1,19 @@
 import React from "react";
 import { useState, FormEvent } from "react";
-import { postUser } from "../utils/userDataRequest";
+import { postUser } from "../../utils/userDataRequest";
+import { useRouter } from "next/router";
 
 const SignupForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>, url: string) => {
     e.preventDefault();
     // ログイン処理をここに書く
-    postUser(url, username, email);
-    console.log(`Username: ${username}, Email: ${email}`);
+    postUser(url, username, email).then((res) => {
+      router.push(`/user/${res.ID}`);
+    });
   };
 
   return (
@@ -33,7 +36,7 @@ const SignupForm = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        <button type="submit">Login</button>
+        <button type="submit">SignUp</button>
       </form>
     </div>
   );

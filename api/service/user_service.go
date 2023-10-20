@@ -48,10 +48,17 @@ func (s Service) GetByID(id string) (User, error) {
 	return u, nil
 }
 
-func (s Service) GetLoginUserTask(username string) (User, error) {
+func (s Service) GetUserUseUsename(username string) (User, error) {
 	db := db.GetDB()
 	var u User
-	err := db.Where("name = ?", "test").First(&u).Error
+	err := db.Where("name = ?", username).First(&u).Error
+	return u, err
+}
+
+func (s Service) GetUserUseId(id int) (User, error){
+	db := db.GetDB()
+	var u User
+	err := db.Where("id = ?", id).First(&u).Error
 	return u, err
 }
 

@@ -1,19 +1,23 @@
 import { useState, FormEvent } from "react";
-import { getUserData } from "../utils/userDataRequest";
+import { getUserData } from "../../utils/userDataRequest";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>, url: string) => {
     e.preventDefault();
-    // ログイン処理をここに書く
-    getUserData(url);
+    getUserData(url).then((res) => {
+      console.log(res);
+      router.push(`/user/${res.ID}`);
+    });
   };
 
   return (
     <div>
-      <h1>Login（GET/users/&{username}）</h1>
+      <h1>Login（GET/users?username={username}）</h1>
       <form onSubmit={(e) => handleSubmit(e, `/user?username=${username}`)}>
         <label>
           Username:

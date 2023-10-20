@@ -2,6 +2,7 @@ package user
 
 import (
 	"fmt"
+	"strconv"
 
 	user "github.com/MahiroWatanabe/reversetodo/service"
 	"github.com/gin-gonic/gin"
@@ -52,16 +53,35 @@ func (pc Controller) Show(c *gin.Context) {
 }
 
 func (pc Controller) ShowUser(c *gin.Context) {
-	username := c.Query("username")
+	username := c.Param("username")
+	id := c.Param("id")
 	var s user.Service
-	// GetLoginUserTaskから編集
-	p, err := s.GetLoginUserTask(username)
-
-	if err != nil {
-		c.AbortWithStatus(400)
-		fmt.Println(err)
-	} else {
-		c.JSON(200, p)
+	
+	if id == ""{
+		fmt.Println(username)
+		p, err := s.GetUserUseUsename(username)
+		
+		if err != nil {
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+			} else {
+				c.JSON(200, p)
+		}
+	}else{
+		nid, err := strconv.Atoi(id)
+		if err != nil {
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+			return
+		}
+		p, err := s.GetUserUseId(nid)
+	
+		if err != nil {
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+		} else {
+			c.JSON(200, p)
+		}
 	}
 }
 

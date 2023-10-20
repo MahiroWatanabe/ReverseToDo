@@ -1,9 +1,19 @@
-import React from 'react'
+import { useRouter } from "next/router";
+import React from "react";
+import UserTask from "../../components/UserTask/UserTask";
+import SearchUser from "../../components/SearchUser/SearchUser";
+import styles from "./user.module.scss";
 
-function Id() {
+const UserComponent = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
   return (
-    <div>[id]</div>
-  )
-}
+    <div className={styles["parent-container"]}>
+      <UserTask id={id as string} />
+      <SearchUser />
+    </div>
+  );
+};
 
-export default Id
+export default UserComponent;

@@ -52,16 +52,28 @@ func (pc Controller) Show(c *gin.Context) {
 }
 
 func (pc Controller) ShowUser(c *gin.Context) {
-	username := c.Query("username")
+	username := c.Param("username")
+	id := c.Param("id")
 	var s user.Service
-	// GetLoginUserTaskから編集
-	p, err := s.GetLoginUserTask(username)
 
-	if err != nil {
-		c.AbortWithStatus(400)
-		fmt.Println(err)
-	} else {
-		c.JSON(200, p)
+	if id == ""{
+		p, err := s.GetUserUseUsename(username)
+	
+		if err != nil {
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+		} else {
+			c.JSON(200, p)
+		}
+	}else{
+		p, err := s.GetUserUseId(id)
+	
+		if err != nil {
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+		} else {
+			c.JSON(200, p)
+		}
 	}
 }
 

@@ -55,7 +55,7 @@ func (s Service) GetUserUseUsename(username string) (User, error) {
 	return u, err
 }
 
-func (s Service) GetUserUseId(id string) (User, error){
+func (s Service) GetUserUseId(id int) (User, error){
 	db := db.GetDB()
 	var u User
 	err := db.Where("id = ?", id).First(&u).Error

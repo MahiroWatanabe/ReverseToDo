@@ -8,11 +8,10 @@ import (
 
 type Task struct {
 	gorm.Model
-	Title       string
-	Description string
-	Status      bool
-	Deadline    time.Time
-	UserID      uint
-	CreatorID   uint
-	AssigneeID  uint
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Status      uint      `json:"status"`
+	Deadline    time.Time `json:"deadline"`
+	CreatorID   uint      `json:"createid"`
+	AssigneeID  uint      `json:"assignid"`
 }

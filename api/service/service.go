@@ -1,4 +1,4 @@
-package user
+package service
 
 import (
 	"github.com/gin-gonic/gin"
@@ -11,6 +11,7 @@ type Service struct {
 }
 
 type User entity.User
+type Task entity.Task
 
 func (s Service) GetAll() ([]User, error) {
 	db := db.GetDB()
@@ -48,18 +49,47 @@ func (s Service) GetByID(id string) (User, error) {
 	return u, nil
 }
 
-func (s Service) GetUserUseUsename(username string) (User, error) {
+func (s Service) GetUserUseUsername(username string) (User, []Task, error) {
 	db := db.GetDB()
 	var u User
-	err := db.Where("name = ?", username).First(&u).Error
-	return u, err
+	var t []Task
+
+	if err := db.Where("name = ?", username).First(&u).Error; err != nil {
+		return User{}, nil, err
+	}
+
+	err := db.Where("assignee_id = ?", u.ID).Find(&t).Error
+
+	return u, t, err
 }
 
-func (s Service) GetUserUseId(id int) (User, error){
+func (s Service) GetUserUseId(id int) (User, []Task, error) {
 	db := db.GetDB()
 	var u User
-	err := db.Where("id = ?", id).First(&u).Error
-	return u, err
+	var t []Task
+
+	if err := db.Where("id = ?", id).First(&u).Error; err != nil {
+		return User{}, nil, err
+	}
+
+	err := db.Where("assignee_id = ?", u.ID).Find(&t).Error
+
+	return u, t, err
+}
+
+func (s Service) CreateTask(c *gin.Context) (Task, error) {
+	db := db.GetDB()
+	var t Task
+
+	if err := c.BindJSON(&t); err != nil {
+		return t, err
+	}
+
+	if err := db.Create(&t).Error; err != nil {
+		return t, err
+	}
+
+	return t, nil
 }
 
 func (s Service) UpdateByID(id string, c *gin.Context) (User, error) {

@@ -33,14 +33,16 @@ func router() *gin.Engine {
 		AllowCredentials: true,
 		// preflightリクエストの結果をキャッシュする時間
 	}))
-	
+
 	u := r.Group("/user")
 	{
 		ctrl := user.Controller{}
-		// u.GET("", ctrl.Index)
-		// u.GET("/:id", ctrl.Show)
 		u.GET("", ctrl.ShowUser)
 		u.POST("", ctrl.Create)
+		// task作成API
+		u.POST("/:id", ctrl.CreateTask)
+		// u.GET("/:id", ctrl.Show)
+		// u.GET("", ctrl.Index)
 		// u.PUT("/:id", ctrl.Update)
 		// u.DELETE("/:id", ctrl.Delete)
 	}

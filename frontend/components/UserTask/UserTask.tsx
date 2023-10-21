@@ -2,12 +2,13 @@ import { useState, FormEvent, useEffect } from "react";
 import styles from "./UserTask.module.scss";
 import { getUserData } from "../../utils/userDataRequest";
 import { useRouter } from "next/router";
+import TodoItem from "../TodoItem/TodoItem";
 
 type Props = {
   id: string;
 };
 
-type ReturnData = {
+type ReturnUserData = {
   CreatedAt: string;
   DeletedAt: string;
   ID: number;
@@ -17,12 +18,27 @@ type ReturnData = {
   username: string;
 };
 
+type ReturnTaskData = {
+  CreatedAt: string;
+  DeletedAt: string | null;
+  ID: number;
+  UpdatedAt: string;
+  assignid: number;
+  createid: number;
+  deadline: string;
+  description: string;
+  status: number;
+  title: string;
+};
+
 const UserTask = ({ id }: Props) => {
-  const [useData, setUserdata] = useState<ReturnData | null>(null);
+  const [useUserData, setUseUserData] = useState<ReturnUserData | null>(null);
+  const [useTaskData, setUseTaskData] = useState<ReturnTaskData[] | null>(null);
 
   const handleSubmit = (url: string) => {
     getUserData(url).then((res) => {
-      setUserdata(res);
+      setUseUserData(res?.userdata);
+      setUseTaskData(res?.taskdata);
       return res;
     });
   };
@@ -31,11 +47,13 @@ const UserTask = ({ id }: Props) => {
     handleSubmit(`/user?id=${id}`);
   }, []);
 
-  console.log(useData);
-
   return (
     <div className={styles["user-task-container"]}>
-      <h1>Login（GET/users?username={useData?.username}）</h1>
+      <h1>Login（GET/users?username={useUserData?.username}）</h1>
+
+      {useTaskData?.map((data) => (
+        <TodoItem key={data.ID} item={data} />
+      ))}
     </div>
   );
 };

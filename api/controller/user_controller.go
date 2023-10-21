@@ -53,8 +53,8 @@ func (pc Controller) Show(c *gin.Context) {
 }
 
 func (pc Controller) ShowUser(c *gin.Context) {
-	username := c.Param("username")
-	id := c.Param("id")
+	username := c.Query("username")
+	id := c.Query("id")
 	var s user.Service
 	
 	if id == ""{

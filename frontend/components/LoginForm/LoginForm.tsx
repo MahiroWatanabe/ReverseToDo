@@ -10,8 +10,7 @@ const LoginForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>, url: string) => {
     e.preventDefault();
     getUserData(url).then((res) => {
-      console.log(res);
-      router.push(`/user/${res.ID}`);
+      router.push(`/user/${res.userdata.ID}`);
     });
   };
 

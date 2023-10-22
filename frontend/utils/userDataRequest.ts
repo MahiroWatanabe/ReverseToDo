@@ -1,6 +1,6 @@
 import { authInstance } from "../src/api/getUser";
 
-const getUserData = async (url: string) => {
+const getUserTaskData = async (url: string) => {
   try {
     const res = await authInstance.get(url);
     return res.data;
@@ -18,4 +18,4 @@ const postUser = async (url: string, username: string, email: string) => {
   }
 };
 
-export { getUserData, postUser };
+export { getUserTaskData, postUser };

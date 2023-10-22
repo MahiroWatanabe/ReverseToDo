@@ -80,7 +80,6 @@ func (s Service) GetUserUseId(id int) (User, []Task, error) {
 func (s Service) GetTask(userid, taskid int) (Task, error) {
 	db := db.GetDB()
 	var t Task
-	db.LogMode(true)
 	err := db.Where("assignee_id = ? AND id = ?", userid, taskid).Find(&t).Error
 
 	return t, err
@@ -101,15 +100,21 @@ func (s Service) CreateTask(c *gin.Context) (Task, error) {
 	return t, nil
 }
 
+func (s Service) UpdateStatus(status, id uint) (Task, error) {
+	db := db.GetDB()
+	db.LogMode(true)
+	var t Task
+
+	err := db.Where("id = ?", id).Find(&t).Update("status", status).Error
+
+	return t, err
+}
+
 func (s Service) UpdateByID(id string, c *gin.Context) (User, error) {
 	db := db.GetDB()
 	var u User
 
 	if err := db.Where("id = ?", id).First(&u).Error; err != nil {
-		return u, err
-	}
-
-	if err := c.BindJSON(&u); err != nil {
 		return u, err
 	}
 

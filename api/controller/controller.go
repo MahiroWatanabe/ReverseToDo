@@ -11,6 +11,11 @@ import (
 type Controller struct {
 }
 
+type StatusStruct struct {
+	Status uint `json:"status"`
+	Id     uint `json:"id"`
+}
+
 // Create action: POST /user
 func (pc Controller) Create(c *gin.Context) {
 	var s service.Service
@@ -86,6 +91,26 @@ func (pc Controller) CreateTask(c *gin.Context) {
 		fmt.Println(err)
 	} else {
 		c.JSON(201, p)
+	}
+}
+
+// Update action: PATCH /task
+func (pc Controller) UpdataTaskStatus(c *gin.Context) {
+	var u StatusStruct
+	var s service.Service
+
+	if err := c.BindJSON(&u); err != nil {
+		c.AbortWithStatus(400)
+		fmt.Println(err)
+	} else {
+		p, err := s.UpdateStatus(u.Status, u.Id)
+		if err != nil {
+			fmt.Println(u)
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+		} else {
+			c.JSON(200, p)
+		}
 	}
 }
 

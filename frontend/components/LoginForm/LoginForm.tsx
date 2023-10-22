@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { getUserData } from "../../utils/userDataRequest";
+import { getUserTaskData } from "../../utils/userDataRequest";
 import { useRouter } from "next/router";
 
 const LoginForm = () => {
@@ -9,7 +9,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>, url: string) => {
     e.preventDefault();
-    getUserData(url).then((res) => {
+    getUserTaskData(url).then((res) => {
       router.push(`/user/${res.userdata.ID}`);
     });
   };

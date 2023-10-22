@@ -11,6 +11,11 @@ import (
 type Controller struct {
 }
 
+type StatusStruct struct {
+	Status uint `json:"status"`
+	Id     uint `json:"id"`
+}
+
 // Create action: POST /user
 func (pc Controller) Create(c *gin.Context) {
 	var s service.Service
@@ -57,6 +62,25 @@ func (pc Controller) ShowUser(c *gin.Context) {
 	}
 }
 
+// Get action: GET /task?userid=userid&taskid=taskid
+func (pc Controller) ShowTask(c *gin.Context) {
+	userid := c.Query("userid")
+	taskid := c.Query("taskid")
+	nuserid, err := strconv.Atoi(userid)
+	ntaskid, err := strconv.Atoi(taskid)
+	var s service.Service
+	p, err := s.GetTask(nuserid, ntaskid)
+
+	if err != nil {
+		fmt.Println(userid)
+		fmt.Println(taskid)
+		c.AbortWithStatus(400)
+		fmt.Println(err)
+	} else {
+		c.JSON(200, p)
+	}
+}
+
 // Create action: POST /user/:id
 func (pc Controller) CreateTask(c *gin.Context) {
 	var s service.Service
@@ -67,6 +91,26 @@ func (pc Controller) CreateTask(c *gin.Context) {
 		fmt.Println(err)
 	} else {
 		c.JSON(201, p)
+	}
+}
+
+// Update action: PATCH /task
+func (pc Controller) UpdataTaskStatus(c *gin.Context) {
+	var u StatusStruct
+	var s service.Service
+
+	if err := c.BindJSON(&u); err != nil {
+		c.AbortWithStatus(400)
+		fmt.Println(err)
+	} else {
+		p, err := s.UpdateStatus(u.Status, u.Id)
+		if err != nil {
+			fmt.Println(u)
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+		} else {
+			c.JSON(200, p)
+		}
 	}
 }
 

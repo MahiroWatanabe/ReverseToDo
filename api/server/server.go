@@ -19,7 +19,7 @@ func router() *gin.Engine {
 			"http://localhost:3000",
 		},
 		AllowMethods: []string{
-			"GET", "POST", "PUT", "OPTIONS", "DELETE",
+			"GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH",
 		},
 		AllowHeaders: []string{
 			"Access-Control-Allow-Credentials",
@@ -45,6 +45,13 @@ func router() *gin.Engine {
 		// u.GET("", ctrl.Index)
 		// u.PUT("/:id", ctrl.Update)
 		// u.DELETE("/:id", ctrl.Delete)
+	}
+
+	t := r.Group("/task")
+	{
+		ctrl := user.Controller{}
+		t.GET("", ctrl.ShowTask)
+		t.PATCH("", ctrl.UpdataTaskStatus)
 	}
 
 	return r

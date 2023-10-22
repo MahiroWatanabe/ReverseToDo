@@ -57,6 +57,25 @@ func (pc Controller) ShowUser(c *gin.Context) {
 	}
 }
 
+// Get action: GET /task?userid=userid&taskid=taskid
+func (pc Controller) ShowTask(c *gin.Context) {
+	userid := c.Query("userid")
+	taskid := c.Query("taskid")
+	nuserid, err := strconv.Atoi(userid)
+	ntaskid, err := strconv.Atoi(taskid)
+	var s service.Service
+	p, err := s.GetTask(nuserid, ntaskid)
+
+	if err != nil {
+		fmt.Println(userid)
+		fmt.Println(taskid)
+		c.AbortWithStatus(400)
+		fmt.Println(err)
+	} else {
+		c.JSON(200, p)
+	}
+}
+
 // Create action: POST /user/:id
 func (pc Controller) CreateTask(c *gin.Context) {
 	var s service.Service

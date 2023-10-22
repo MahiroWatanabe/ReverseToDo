@@ -47,5 +47,11 @@ func router() *gin.Engine {
 		// u.DELETE("/:id", ctrl.Delete)
 	}
 
+	t := r.Group("/task")
+	{
+		ctrl := user.Controller{}
+		t.GET("", ctrl.ShowTask)
+	}
+
 	return r
 }

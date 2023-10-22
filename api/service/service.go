@@ -77,6 +77,15 @@ func (s Service) GetUserUseId(id int) (User, []Task, error) {
 	return u, t, err
 }
 
+func (s Service) GetTask(userid, taskid int) (Task, error) {
+	db := db.GetDB()
+	var t Task
+	db.LogMode(true)
+	err := db.Where("assignee_id = ? AND id = ?", userid, taskid).Find(&t).Error
+
+	return t, err
+}
+
 func (s Service) CreateTask(c *gin.Context) (Task, error) {
 	db := db.GetDB()
 	var t Task

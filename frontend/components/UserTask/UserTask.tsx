@@ -1,34 +1,10 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./UserTask.module.scss";
 import { getUserTaskData } from "../../utils/userDataRequest";
-import { useRouter } from "next/router";
 import TodoItem from "../TodoItem/TodoItem";
 
 type Props = {
   id: string;
-};
-
-type ReturnUserData = {
-  CreatedAt: string;
-  DeletedAt: string;
-  ID: number;
-  Tasks: [];
-  UpdatedAt: string;
-  email: string;
-  username: string;
-};
-
-type ReturnTaskData = {
-  CreatedAt: string;
-  DeletedAt: string | null;
-  ID: number;
-  UpdatedAt: string;
-  assignid: number;
-  createid: number;
-  deadline: string;
-  description: string;
-  status: number;
-  title: string;
 };
 
 const UserTask = ({ id }: Props) => {

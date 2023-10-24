@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/MahiroWatanabe/reversetodo/entity"
 	service "github.com/MahiroWatanabe/reversetodo/service"
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,8 @@ type StatusStruct struct {
 	Status uint `json:"status"`
 	Id     uint `json:"id"`
 }
+
+type Task entity.Task
 
 // Create action: POST /user
 func (pc Controller) Create(c *gin.Context) {
@@ -104,6 +107,24 @@ func (pc Controller) UpdataTaskStatus(c *gin.Context) {
 		fmt.Println(err)
 	} else {
 		p, err := s.UpdateStatus(u.Status, u.Id)
+		if err != nil {
+			c.AbortWithStatus(400)
+			fmt.Println(err)
+		} else {
+			c.JSON(200, p)
+		}
+	}
+}
+
+// Update action: PUT /task
+func (pc Controller) UpdataTask(c *gin.Context) {
+	var u Task
+	var s service.Service
+	if err := c.BindJSON(&u); err != nil {
+		c.AbortWithStatus(400)
+		fmt.Println(err)
+	} else {
+		p, err := s.UpdateTask(u.ID, u.Title, u.Description, u.Deadline)
 		if err != nil {
 			fmt.Println(u)
 			c.AbortWithStatus(400)

@@ -52,6 +52,7 @@ func router() *gin.Engine {
 		ctrl := user.Controller{}
 		t.GET("", ctrl.ShowTask)
 		t.PATCH("", ctrl.UpdataTaskStatus)
+		t.PUT("", ctrl.UpdataTask)
 	}
 
 	return r

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/MahiroWatanabe/reversetodo/db"
@@ -102,12 +104,29 @@ func (s Service) CreateTask(c *gin.Context) (Task, error) {
 
 func (s Service) UpdateStatus(status, id uint) (Task, error) {
 	db := db.GetDB()
-	db.LogMode(true)
 	var t Task
 
 	err := db.Where("id = ?", id).Find(&t).Update("status", status).Error
 
 	return t, err
+}
+
+func (s Service) UpdateTask(id uint, title string, description string, deadline time.Time) (Task, error) {
+	db := db.GetDB()
+	db.LogMode(true)
+	var t Task
+	if err := db.First(&t, id).Error; err != nil {
+		return t, err
+	}
+	t.Title = title
+	t.Description = description
+	t.Deadline = deadline
+
+	if err := db.Save(&t).Error; err != nil {
+		return t, err
+	}
+
+	return t, nil
 }
 
 func (s Service) UpdateByID(id string, c *gin.Context) (User, error) {

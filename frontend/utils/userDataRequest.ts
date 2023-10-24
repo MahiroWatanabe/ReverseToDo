@@ -21,11 +21,20 @@ const postUser = async (url: string, username: string, email: string) => {
 const putTaskStatus = async (url: string, status: number, id: any) => {
   try {
     const res = await authInstance.patch(url, { status, id });
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.error(error);
   }
 };
 
-export { getUserTaskData, postUser, putTaskStatus };
+const putTaskData = async (url: string, newData: ReturnTaskData | null) => {
+  try {
+    console.log(newData);
+    const res = await authInstance.put(url, newData);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getUserTaskData, postUser, putTaskStatus, putTaskData };

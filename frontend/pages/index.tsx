@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       <p>
         サインアップは
         <span className={styles.blueText} onClick={handleSignupClick}>
-          こちら
+          こちらです
         </span>
       </p>
     </div>
